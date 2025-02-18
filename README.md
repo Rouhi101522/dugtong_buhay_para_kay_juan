@@ -1,6 +1,6 @@
-# dugtong_buhay_para_kay_juan
+# dugtong_buhay_para_kay_juan_v2
 
-A new Flutter project.
+BASIC LIFE SUPPORT AND FIRST AID APP
 
 ## Getting Started
 

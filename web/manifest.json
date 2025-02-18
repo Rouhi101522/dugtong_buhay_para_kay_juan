@@ -1,11 +1,11 @@
 {
-    "name": "dugtong_buhay_para_kay_juan",
-    "short_name": "dugtong_buhay_para_kay_juan",
+    "name": "dugtong_buhay_para_kay_juan_v2",
+    "short_name": "dugtong_buhay_para_kay_juan_v2",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "BASIC LIFE SUPPORT AND FIRST AID APP",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
