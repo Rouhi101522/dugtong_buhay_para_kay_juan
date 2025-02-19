@@ -102,49 +102,67 @@ class _HomePageState extends State<HomePage> {
   }
 
   //method to build the modal for editable medical information card
-  Widget _buildEditableField(
-      String label, String? initialValue, Function(String) onChanged) {
-    return TextField(
-      decoration: InputDecoration(labelText: label),
-      controller: TextEditingController(text: initialValue),
-      onChanged: onChanged,
+  Widget _buildEditableField(String label, TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: TextField(
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          filled: true,
+          fillColor: Colors.grey[200],
+        ),
+        controller: controller,
+      ),
     );
   }
 
+
   void _editEmergencyInfo() {
-    showModalBottomSheet(
+    TextEditingController addressController = TextEditingController(text: _address);
+    TextEditingController bloodTypeController = TextEditingController(text: _bloodType);
+    TextEditingController allergiesController = TextEditingController(text: _allergies);
+    TextEditingController medicationController = TextEditingController(text: _medication);
+    TextEditingController organDonorController = TextEditingController(text: _organDonor);
+
+    showDialog(
       context: context,
-      isScrollControlled: true, // Allows the modal to adjust for the keyboard
       builder: (context) {
-        return FractionallySizedBox(
-          heightFactor: 0.8, // Makes the modal take up 80% of the screen height
+        return Dialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20),
+          ),
           child: Padding(
-            padding: EdgeInsets.only(
-              left: 16.0,
-              right: 16.0,
-              top: 16.0,
-              bottom: MediaQuery.of(context).viewInsets.bottom + 16.0,
-            ),
+            padding: const EdgeInsets.all(16.0),
             child: SingleChildScrollView(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  _buildEditableField(
-                      'Address', _address, (value) => _address = value),
-                  _buildEditableField(
-                      'Blood Type', _bloodType, (value) => _bloodType = value),
-                  _buildEditableField(
-                      'Allergies', _allergies, (value) => _allergies = value),
-                  _buildEditableField('Medication', _medication,
-                      (value) => _medication = value),
-                  _buildEditableField('Organ Donor', _organDonor,
-                      (value) => _organDonor = value),
-                  SizedBox(height: 20),
+                  Text(
+                    'Edit Emergency Info',
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                  Divider(),
+                  _buildEditableField('Address', addressController),
+                  _buildEditableField('Blood Type', bloodTypeController),
+                  _buildEditableField('Allergies', allergiesController),
+                  _buildEditableField('Medication', medicationController),
+                  _buildEditableField('Organ Donor', organDonorController),
+                  const SizedBox(height: 25),
                   ElevatedButton(
                     onPressed: () async {
+                      // Update state values
+                      setState(() {
+                        _address = addressController.text;
+                        _bloodType = bloodTypeController.text;
+                        _allergies = allergiesController.text;
+                        _medication = medicationController.text;
+                        _organDonor = organDonorController.text;
+                      });
+
+                      // Save data to SharedPreferences
                       await _saveEmergencyInfo();
                       Navigator.pop(context);
-                      setState(() {});
                     },
                     child: Text('Save Information'),
                   ),
