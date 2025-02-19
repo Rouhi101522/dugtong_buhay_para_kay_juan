@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:carousel_slider/carousel_controller.dart' as cs;
 import 'package:dugtong_buhay_para_kay_juan_v2/fullscreen.dart';
 
 //
