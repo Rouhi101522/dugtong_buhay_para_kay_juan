@@ -1,20 +1,24 @@
+import 'package:dugtong_buhay_para_kay_juan_v2/quiz_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'hospital.dart';
-import 'socials.dart';// for rss
 import 'help.dart';
 import 'bls.dart';
 import 'first_aid.dart';
 import 'first_aid_kit.dart';
+import 'socials.dart';// for rss
 
-void main() {
-  runApp(MyApp());
-}
+
+// void main() {
+//   runApp(MyApp());
+// }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -382,34 +386,6 @@ class _HomePageState extends State<HomePage> {
 
 
 
-          // //NEW UI TESTING          //NEW UI TESTING          //NEW UI TESTING          //NEW UI TESTING          //NEW UI TESTINg
-          // Flexible(
-          //   child: Row(
-          //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //     children: List.generate(4, (index) {
-          //       return Expanded(
-          //         child: Container(
-          //           margin: EdgeInsets.all(8),
-          //           padding: EdgeInsets.all(16),
-          //           decoration: BoxDecoration(
-          //             color: Colors.blueAccent,
-          //             borderRadius: BorderRadius.circular(10),
-          //           ),
-          //           child: Center(
-          //             child: Text(
-          //               "Column ${index + 1}",
-          //               textAlign: TextAlign.center,
-          //               style: TextStyle(color: Colors.white, fontSize: 16),
-          //             ),
-          //           ),
-          //         ),
-          //       );
-          //     }),
-          //   ),
-          // ),
-
-
-
 
 
           // LEARN Section
@@ -585,6 +561,7 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(10)),
                         elevation: 0,
                       ),
+
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -595,6 +572,90 @@ class _HomePageState extends State<HomePage> {
                           ),
                           Text(
                             'FIRST AID CHECKLIST',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 10),
+
+                  // Nearest Hospital Button
+                  SizedBox(
+                    height: screenHeight * .12,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => QuizScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        elevation: 0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/hospital_icon.svg',
+                            height: 50,
+                            width: 50,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'TAKE A QUIZ',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.black),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  SizedBox(height: 10),
+
+                  // Nearest Hospital Button
+                  SizedBox(
+                    height: screenHeight * .12,
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => QuizScreen()),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        elevation: 0,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            'assets/hospital_icon.svg',
+                            height: 50,
+                            width: 50,
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            'TRANSLATE',
                             style: TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.w500,
@@ -658,4 +719,11 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
+
+
+
+
+
+
+
 }
