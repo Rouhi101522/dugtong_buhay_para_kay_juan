@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
+import 'package:dugtong_buhay_para_kay_juan_v2/onboarding.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -10,6 +12,7 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
   @override
   void initState() {
     super.initState();
@@ -20,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     PermissionStatus status = await Permission.location.request();
     if (status.isGranted) {
       print('Location permission granted');
-      _navigateToHome();
+      _navigateToOnboarding();
     } else if (status.isDenied) {
       print('Location permission denied');
       _showPermissionDialog();
@@ -50,14 +53,35 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  void _navigateToHome() {
-    Future.delayed(Duration(seconds: 2), () {
+  // void _navigateToHome() {
+  //   Future.delayed(Duration(seconds: 2), () {
+  //     Navigator.pushReplacement(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => HomePage()),
+  //     );
+  //   });
+  // }
+
+  Future<void> _navigateToOnboarding() async {
+    await Future.delayed(Duration(seconds: 2));
+
+    final prefs = await SharedPreferences.getInstance();
+    bool dontShowOnboarding = !(prefs.getBool('showOnboarding') ?? true);
+
+    if (dontShowOnboarding) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => HomePage()),
       );
-    });
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => OnboardingScreen()),
+      );
+    }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
