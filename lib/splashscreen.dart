@@ -12,7 +12,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -39,7 +38,8 @@ class _SplashScreenState extends State<SplashScreen> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Permission Required'),
-          content: Text('Location permission is required to proceed. Please allow it in the settings.'),
+          content: Text(
+              'Location permission is required to proceed. Please allow it in the settings.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -52,15 +52,6 @@ class _SplashScreenState extends State<SplashScreen> {
       },
     );
   }
-
-  // void _navigateToHome() {
-  //   Future.delayed(Duration(seconds: 2), () {
-  //     Navigator.pushReplacement(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => HomePage()),
-  //     );
-  //   });
-  // }
 
   Future<void> _navigateToOnboarding() async {
     await Future.delayed(Duration(seconds: 2));
@@ -80,8 +71,6 @@ class _SplashScreenState extends State<SplashScreen> {
       );
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {

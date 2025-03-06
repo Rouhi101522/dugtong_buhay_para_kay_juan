@@ -3,7 +3,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'splashscreen.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures proper Flutter initialization
+  WidgetsFlutterBinding
+      .ensureInitialized(); // Ensures proper Flutter initialization
 
   try {
     await dotenv.load();
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'DUGTONG BUHAY PARA KAY JUAN',
       debugShowCheckedModeBanner: false,
-      // theme: ThemeData(primarySwatch: Colors.blue),
+      //theme: ThemeData(primarySwatch: Colors.blue),
       home: const SplashScreen(),
     );
   }

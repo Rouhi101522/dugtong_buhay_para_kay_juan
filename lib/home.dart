@@ -593,7 +593,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => QuizScreen()),
+                              builder: (context) => QuizPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -635,7 +635,7 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => QuizScreen()),
+                              builder: (context) => QuizPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -719,11 +719,4 @@ class _HomePageState extends State<HomePage> {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
-
-
-
-
-
-
-
 }
