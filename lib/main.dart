@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'splashscreen.dart';
+import 'notif.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       //theme: ThemeData(primarySwatch: Colors.blue),
       home: const SplashScreen(),
+
     );
   }
 }

@@ -2,7 +2,7 @@ import 'package:dugtong_buhay_para_kay_juan_v2/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'splashscreen.dart';
+import 'dart:async';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -10,8 +10,12 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final PageController _pageController = PageController(viewportFraction: 0.8);
+  final PageController _pageController = PageController();
   int _currentIndex = 0;
+  bool _showCheckbox = false;
+  bool _dontShowAgain = false;
+  Timer? _timer;
+  int _timerSeconds = 10;
 
   Future<void> _setOnboardingSeen(bool dontShowAgain) async {
     final prefs = await SharedPreferences.getInstance();
@@ -19,13 +23,36 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   final List<Map<String, String>> onboardingData = [
-    {"text": "Welcome to Dugtong Buhay Para Kay Juan!", "image": "assets/placeholder1.svg"},
-    {"text": "Learn Basic Life Support techniques.", "image": "assets/placeholder2.svg"},
-    {"text": "Stay prepared and help save lives.", "image": "assets/placeholder3.svg"},
+    {"image": "assets/Onboarding1.svg"},
+    {"image": "assets/Onboarding2.svg"},
+    {"image": "assets/Onboarding3.svg"},
+    {"image": "assets/Onboarding4.svg"},
+    {"image": "assets/Onboarding5.svg"},
   ];
 
   @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void startTimer() {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        if (_timerSeconds > 0) {
+          _timerSeconds--;
+        } else {
+          _timer?.cancel();
+          _showCheckbox = true;
+        }
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+
     return Scaffold(
       body: Column(
         children: [
@@ -36,61 +63,70 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               onPageChanged: (index) {
                 setState(() {
                   _currentIndex = index;
+                  if (index == onboardingData.length - 1) {
+                    _timerSeconds = 10;
+                    startTimer();
+                  } else {
+                    _timer?.cancel();
+                    _showCheckbox = false;
+                  }
                 });
               },
               itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-                    elevation: 4,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SvgPicture.asset(
-                          onboardingData[index]["image"]!,
-                          height: 200,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Text(
-                            onboardingData[index]["text"]!,
-                            style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ],
-                    ),
+                return Container(
+                  width: screenSize.width,
+                  height: screenSize.height,
+                  child: SvgPicture.asset(
+                    onboardingData[index]["image"]!,
+                    fit: BoxFit.cover,
                   ),
                 );
               },
             ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(onboardingData.length, (index) {
+              return Container(
+                margin: const EdgeInsets.symmetric(horizontal: 4.0),
+                width: _currentIndex == index ? 12.0 : 8.0,
+                height: _currentIndex == index ? 12.0 : 8.0,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: _currentIndex == index ? Colors.blue : Colors.grey,
+                ),
+              );
+            }),
           ),
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                if (_currentIndex != onboardingData.length - 1)
-                  TextButton(
-                    onPressed: () {
-                      _setOnboardingSeen(true);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => SplashScreen()),
-                      );
-                    },
-                    child: const Text("Do not show again"),
+                if (_currentIndex == onboardingData.length - 1)
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _dontShowAgain,
+                        onChanged: (value) {
+                          setState(() {
+                            _dontShowAgain = value!;
+                          });
+                        },
+                      ),
+                      const Text("Do not show again"),
+                    ],
                   ),
-
                 ElevatedButton(
                   onPressed: () {
                     if (_currentIndex == onboardingData.length - 1) {
-                      _setOnboardingSeen(false);
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => HomePage()),
-                      );
+                      if (_timerSeconds == 0) {
+                        _setOnboardingSeen(_dontShowAgain);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomePage()),
+                        );
+                      }
                     } else {
                       _pageController.nextPage(
                         duration: const Duration(milliseconds: 300),
@@ -98,7 +134,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       );
                     }
                   },
-                  child: Text(_currentIndex == onboardingData.length - 1 ? "I Understand" : "Next"),
+                  child: Text(_currentIndex == onboardingData.length - 1
+                      ? _timerSeconds == 0
+                      ? "I Understand"
+                      : "I Understand ($_timerSeconds)"
+                      : "Next"),
                 ),
               ],
             ),

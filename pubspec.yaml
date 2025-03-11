@@ -49,6 +49,7 @@ dependencies:
   cached_network_image: ^3.0.0
   carousel_slider: ^5.0.0
   translator: ^0.1.7
+  flutter_local_notifications: ^12.0.0
 
 
 
@@ -175,6 +176,12 @@ flutter:
     - assets/fbao_poster_10.png
     - assets/fbao_poster_11.png
     - assets/fbao_poster_12.png
+
+    - assets/Onboarding1.svg
+    - assets/Onboarding2.svg
+    - assets/Onboarding3.svg
+    - assets/Onboarding4.svg
+    - assets/Onboarding5.svg
 
     # Flowcharts (CPR & FBAO)
     #- assets/cpr_flowchart.png

@@ -626,45 +626,45 @@ class _HomePageState extends State<HomePage> {
 
                   SizedBox(height: 10),
 
-                  // Nearest Hospital Button
-                  SizedBox(
-                    height: screenHeight * .12,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => QuizPage()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        padding: EdgeInsets.symmetric(vertical: 15),
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10)),
-                        elevation: 0,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            'assets/hospital_icon.svg',
-                            height: 50,
-                            width: 50,
-                          ),
-                          SizedBox(width: 10),
-                          Text(
-                            'TRANSLATE',
-                            style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w500,
-                                color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
+                  // TEST BUTTON FOR TRANSLATE
+                  // SizedBox(
+                  //   height: screenHeight * .12,
+                  //   width: double.infinity,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.push(
+                  //         context,
+                  //         MaterialPageRoute(
+                  //             builder: (context) => QuizPage()),
+                  //       );
+                  //     },
+                  //     style: ElevatedButton.styleFrom(
+                  //       backgroundColor: Colors.white,
+                  //       padding: EdgeInsets.symmetric(vertical: 15),
+                  //       shape: RoundedRectangleBorder(
+                  //           borderRadius: BorderRadius.circular(10)),
+                  //       elevation: 0,
+                  //     ),
+                  //     child: Row(
+                  //       mainAxisAlignment: MainAxisAlignment.center,
+                  //       children: [
+                  //         SvgPicture.asset(
+                  //           'assets/hospital_icon.svg',
+                  //           height: 50,
+                  //           width: 50,
+                  //         ),
+                  //         SizedBox(width: 10),
+                  //         Text(
+                  //           'TRANSLATE',
+                  //           style: TextStyle(
+                  //               fontSize: 18,
+                  //               fontWeight: FontWeight.w500,
+                  //               color: Colors.black),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
                 ],
               ),
             ),

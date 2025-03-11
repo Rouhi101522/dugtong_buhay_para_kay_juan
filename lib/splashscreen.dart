@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'home.dart';
 import 'package:dugtong_buhay_para_kay_juan_v2/onboarding.dart';
+import 'package:dugtong_buhay_para_kay_juan_v2/notif.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,6 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _requestPermissions();
+    _initializeEmergencyService(); // Initialize emergency service
   }
 
   Future<void> _requestPermissions() async {
@@ -30,6 +32,12 @@ class _SplashScreenState extends State<SplashScreen> {
       print('Location permission permanently denied');
       openAppSettings();
     }
+  }
+
+  Future<void> _initializeEmergencyService() async {
+    // Initialize the emergency service
+    EmergencyService emergencyService = EmergencyService();
+    emergencyService.createState().initState();
   }
 
   void _showPermissionDialog() {
