@@ -44,6 +44,8 @@ class _HomePageState extends State<HomePage> {
   String? _allergies;
   String? _medication;
   String? _organDonor;
+  String? _emergencyContactPerson;
+  String? _emergencyContactPersonNumber;
 
   //For Google Accounts
   String? _displayName;
@@ -124,10 +126,13 @@ class _HomePageState extends State<HomePage> {
 
   void _editEmergencyInfo() {
     TextEditingController addressController = TextEditingController(text: _address);
-    TextEditingController bloodTypeController = TextEditingController(text: _bloodType);
     TextEditingController allergiesController = TextEditingController(text: _allergies);
     TextEditingController medicationController = TextEditingController(text: _medication);
-    TextEditingController organDonorController = TextEditingController(text: _organDonor);
+    TextEditingController emergencyContactPersonController = TextEditingController(text: _emergencyContactPerson);
+    TextEditingController emergencyContactPersonNumberController = TextEditingController(text: _emergencyContactPersonNumber);
+
+    String? selectedBloodType = _bloodType;
+    String? selectedOrganDonor = _organDonor;
 
     showDialog(
       context: context,
@@ -148,20 +153,32 @@ class _HomePageState extends State<HomePage> {
                   ),
                   Divider(),
                   _buildEditableField('Address', addressController),
-                  _buildEditableField('Blood Type', bloodTypeController),
+                  _buildDropdownField('Blood Type', selectedBloodType, (String? newValue) {
+                    setState(() {
+                      selectedBloodType = newValue;
+                    });
+                  }, ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
                   _buildEditableField('Allergies', allergiesController),
                   _buildEditableField('Medication', medicationController),
-                  _buildEditableField('Organ Donor', organDonorController),
+                  _buildDropdownField('Organ Donor', selectedOrganDonor, (String? newValue) {
+                    setState(() {
+                      selectedOrganDonor = newValue;
+                    });
+                  }, ['Yes', 'No']),
+                  _buildEditableField('Emergency Contact Person', emergencyContactPersonController),
+                  _buildEditableField('Emergency Contact Number', emergencyContactPersonNumberController),
                   const SizedBox(height: 25),
                   ElevatedButton(
                     onPressed: () async {
                       // Update state values
                       setState(() {
                         _address = addressController.text;
-                        _bloodType = bloodTypeController.text;
+                        _bloodType = selectedBloodType;
                         _allergies = allergiesController.text;
                         _medication = medicationController.text;
-                        _organDonor = organDonorController.text;
+                        _organDonor = selectedOrganDonor;
+                        _emergencyContactPerson = emergencyContactPersonController.text;
+                        _emergencyContactPersonNumber = emergencyContactPersonNumberController.text;
                       });
 
                       // Save data to SharedPreferences
@@ -179,15 +196,75 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _saveEmergencyInfo() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('address', _address ?? 'No Address Available');
-    await prefs.setString('bloodType', _bloodType ?? 'Unknown');
-    await prefs.setString('allergies', _allergies ?? 'None');
-    await prefs.setString('medication', _medication ?? 'None');
-    await prefs.setString('organDonor', _organDonor ?? 'Unknown');
+  Widget _buildDropdownField(String label, String? selectedValue, ValueChanged<String?> onChanged, List<String> options) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+          filled: true,
+          fillColor: Colors.grey[200],
+        ),
+        child: DropdownButtonHideUnderline(
+          child: DropdownButton<String>(
+            value: selectedValue,
+            isDense: true,
+            onChanged: onChanged,
+            items: options.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          ),
+        ),
+      ),
+    );
   }
 
+  Future<void> _saveEmergencyInfo() async {
+    if (_address == null || _address!.isEmpty ||
+        _bloodType == null || _bloodType!.isEmpty ||
+        _allergies == null || _allergies!.isEmpty ||
+        _medication == null || _medication!.isEmpty ||
+        _organDonor == null || _organDonor!.isEmpty ||
+        _emergencyContactPerson == null || _emergencyContactPerson!.isEmpty ||
+        _emergencyContactPersonNumber == null || _emergencyContactPersonNumber!.isEmpty) {
+      // Show an error message if any field is empty
+      _showErrorMessage('All fields must be filled out.');
+      return;
+    }
+
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('address', _address!);
+    await prefs.setString('bloodType', _bloodType!);
+    await prefs.setString('allergies', _allergies!);
+    await prefs.setString('medication', _medication!);
+    await prefs.setString('organDonor', _organDonor!);
+    await prefs.setString('emergencyContactPerson', _emergencyContactPerson!);
+    await prefs.setString('emergencyContactPersonNumber', _emergencyContactPersonNumber!);
+  }
+
+  void _showErrorMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text('Error'),
+          content: Text(message),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   Future<void> _loadEmergencyInfo() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
@@ -196,6 +273,8 @@ class _HomePageState extends State<HomePage> {
       _allergies = prefs.getString('allergies');
       _medication = prefs.getString('medication');
       _organDonor = prefs.getString('organDonor');
+      _emergencyContactPerson = prefs.getString('emergencyContactPerson');
+      _emergencyContactPersonNumber = prefs.getString('emergencyContactPersonNumber');
     });
   }
 
@@ -302,6 +381,8 @@ class _HomePageState extends State<HomePage> {
                   _buildInfoCard('Allergies', _allergies),
                   _buildInfoCard('Medication', _medication),
                   _buildInfoCard('Organ Donor', _organDonor),
+                  _buildInfoCard('Emergency Contact Person', _emergencyContactPerson),
+                  _buildInfoCard('Emergency Contact Person Number', _emergencyContactPersonNumber),
                   SizedBox(height: 8),
                   ElevatedButton(
                     onPressed: _editEmergencyInfo, // Call method to edit info

@@ -1,7 +1,6 @@
 import 'package:dugtong_buhay_para_kay_juan_v2/home.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'dart:async';
 
 class OnboardingScreen extends StatefulWidget {
@@ -23,11 +22,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   final List<Map<String, String>> onboardingData = [
-    {"image": "assets/Onboarding1.svg"},
-    {"image": "assets/Onboarding2.svg"},
-    {"image": "assets/Onboarding3.svg"},
-    {"image": "assets/Onboarding4.svg"},
-    {"image": "assets/Onboarding5.svg"},
+    {"image": "assets/Onboarding1.png"},
+    {"image": "assets/Onboarding2.png"},
+    {"image": "assets/Onboarding3.png"},
+    {"image": "assets/Onboarding4.png"},
+    {"image": "assets/Onboarding5.png"},
   ];
 
   @override
@@ -56,6 +55,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     return Scaffold(
       body: Column(
         children: [
+          SizedBox(height: 50%screenSize.height),
           Expanded(
             child: PageView.builder(
               controller: _pageController,
@@ -76,7 +76,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 return Container(
                   width: screenSize.width,
                   height: screenSize.height,
-                  child: SvgPicture.asset(
+                  child: Image.asset(
                     onboardingData[index]["image"]!,
                     fit: BoxFit.cover,
                   ),
@@ -84,6 +84,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               },
             ),
           ),
+          SizedBox(height: 12),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(onboardingData.length, (index) {

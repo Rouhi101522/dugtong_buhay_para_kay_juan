@@ -47,6 +47,15 @@ class _QuizPageState extends State<QuizPage> {
       if (isCorrect) score++;
     });
 
+    // Show Snackbar
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(isCorrect ? "Correct!" : "Incorrect!"),
+        backgroundColor: isCorrect ? Colors.green : Colors.red,
+        duration: Duration(seconds: 2),
+      ),
+    );
+
     // Fetch explanation from AI
     Map<String, dynamic> response = await fetchQuiz.checkAnswer(selectedOption, correctAnswer);
     setState(() {

@@ -36,8 +36,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future<void> _initializeEmergencyService() async {
     // Initialize the emergency service
+    print('Initializing Emergency Service...');
     EmergencyService emergencyService = EmergencyService();
     emergencyService.createState().initState();
+    print('Emergency Service initialized.');
   }
 
   void _showPermissionDialog() {

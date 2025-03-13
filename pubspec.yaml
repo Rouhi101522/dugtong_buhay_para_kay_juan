@@ -49,7 +49,9 @@ dependencies:
   cached_network_image: ^3.0.0
   carousel_slider: ^5.0.0
   translator: ^0.1.7
-  flutter_local_notifications: ^12.0.0
+  flutter_local_notifications: ^18.0.1
+
+
 
 
 
@@ -177,11 +179,17 @@ flutter:
     - assets/fbao_poster_11.png
     - assets/fbao_poster_12.png
 
-    - assets/Onboarding1.svg
-    - assets/Onboarding2.svg
-    - assets/Onboarding3.svg
-    - assets/Onboarding4.svg
-    - assets/Onboarding5.svg
+    - assets/Onboarding1.png
+    - assets/Onboarding2.png
+    - assets/Onboarding3.png
+    - assets/Onboarding4.png
+    - assets/Onboarding5.png
+
+    - assets/survey.png
+    - assets/activateEMS.png
+    - assets/primary_check.png
+    - assets/secondary_check.png
+    - assets/referral.png
 
     # Flowcharts (CPR & FBAO)
     #- assets/cpr_flowchart.png

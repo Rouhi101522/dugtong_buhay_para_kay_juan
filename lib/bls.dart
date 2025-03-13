@@ -70,7 +70,7 @@ class BlsPage extends StatelessWidget {
                       _buildSubSection(
                         '1. Survey the Scene',
                         'This initial step helps you gather critical information about the environment and the incident. The goal is to ensure the scene is safe and to understand the situation better.',
-                        'assets/bls_guide.png',
+                        'assets/survey.png',
                       ),
                       const SizedBox(height: 10),
                       _buildContainer(
@@ -113,13 +113,13 @@ class BlsPage extends StatelessWidget {
                       _buildSubSection(
                         '2. Activate Medical Assistance',
                         'Call First, CPR First Principle: If the victim is unresponsive and not breathing, call for emergency medical help immediately and begin CPR (if trained). Activation of emergency services (911 or local numbers) should occur as soon as possible.',
-                        'assets/bls_guide.png',
+                        'assets/activateEMS.png',
                       ),
                       const SizedBox(height: 20),
                       _buildSubSection(
                         '3. Do Primary Assessment of the Victim',
                         'The Primary Assessment is quick and involves checking for immediate life-threatening conditions. This is commonly known as the ABC approach.',
-                        'assets/bls_guide.png',
+                        'assets/primary_check.png',
                       ),
                       const SizedBox(height: 8),
                       _buildBulletPoint('A – Airway:',
@@ -132,7 +132,7 @@ class BlsPage extends StatelessWidget {
                       _buildSubSection(
                         '4. Secondary Survey',
                         'Once immediate life threats are addressed, perform a secondary survey for a more thorough evaluation.',
-                        'assets/bls_guide.png',
+                        'assets/secondary_check.png',
                       ),
                       const SizedBox(height: 16),
                       _buildContainer(
@@ -179,7 +179,7 @@ class BlsPage extends StatelessWidget {
                       _buildSubSection(
                         '5. Referral of Patient to Advanced Medical Team',
                         'After performing the primary and secondary assessments, refer the patient to a more advanced medical team (paramedics, doctors) for further evaluation and treatment. Provide a clear and concise report on the victim’s condition, history, and any treatment you have administered.',
-                        'assets/bls_guide.png',
+                        'assets/referral.png',
                       ),
                       const SizedBox(height: 16),
                     ],
