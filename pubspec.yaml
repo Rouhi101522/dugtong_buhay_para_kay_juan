@@ -141,6 +141,9 @@ flutter:
     - assets/infant_icon.svg
     - assets/choking_icon.svg
     - assets/flowchart_icon.svg
+    - assets/quiz_icon.svg
+    - assets/learn_icon.svg
+    - assets/tools_icon.svg
 
 
     - assets/adult_poster_1.png
@@ -190,6 +193,7 @@ flutter:
     - assets/primary_check.png
     - assets/secondary_check.png
     - assets/referral.png
+
 
     # Flowcharts (CPR & FBAO)
     #- assets/cpr_flowchart.png

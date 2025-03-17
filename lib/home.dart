@@ -309,15 +309,15 @@ class _HomePageState extends State<HomePage> {
                   width: 60,
                   height: 60,
                 ),
-                // IconButton(
-                //   icon: Icon(Icons.feed),
-                //   onPressed: () {
-                //     Navigator.push(
-                //       context,
-                //       MaterialPageRoute(builder: (context) => RssFeedPage()),
-                //     );
-                //   },
-                // ),
+                 IconButton(
+                   icon: Icon(Icons.feed),
+                   onPressed: () {
+                     Navigator.push(
+                       context,
+                       MaterialPageRoute(builder: (context) => RssFeedPage()),
+                     );
+                   },
+                ),
               ],
             ),
           ),
@@ -325,40 +325,41 @@ class _HomePageState extends State<HomePage> {
       ),
 
       drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: <Widget>[
-            DrawerHeader(
-              decoration: BoxDecoration(
-                color: Colors.blueAccent,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CircleAvatar(
-                    radius: 30,
-                    backgroundImage: _photoUrl != null
-                        ? NetworkImage(_photoUrl!)
-                        : AssetImage('assets/profile_placeholder.png')
-                            as ImageProvider,
-                  ),
-                  SizedBox(height: 10),
-                  Text(
-                    _displayName ?? 'Guest',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverToBoxAdapter(
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CircleAvatar(
+                      radius: 30,
+                      backgroundImage: _photoUrl != null
+                          ? NetworkImage(_photoUrl!)
+                          : AssetImage('assets/profile_placeholder.png')
+                      as ImageProvider,
                     ),
-                  ),
-                  Text(
-                    _email ?? 'user@example.com',
-                    style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 16,
+                    SizedBox(height: 10),
+                    Text(
+                      _displayName ?? 'Guest',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                ],
+                    Text(
+                      _email ?? 'user@example.com',
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             // Medical Information Section
@@ -469,7 +470,7 @@ class _HomePageState extends State<HomePage> {
 
 
 
-          // LEARN Section
+// LEARN Section
           Card(
             elevation: 20,
             child: Padding(
@@ -477,12 +478,22 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'LEARN:',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/learn_icon.svg',
+                        height: 50,
+                        width: 50,
+                      ),
+                      SizedBox(width: 2),
+                      Text(
+                        'LEARN:',
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 15),
 
@@ -562,9 +573,9 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
 
-          SizedBox(height: 16), // Spacing
+          SizedBox(height: 13), // Spacing
 
-          // TOOLS Section
+// TOOLS Section
           Card(
             elevation: 4,
             child: Padding(
@@ -572,14 +583,24 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'TOOLS:',
-                    style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87),
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        'assets/tools_icon.svg',
+                        height: 50,
+                        width: 50,
+                      ),
+                      SizedBox(width: 2),
+                      Text(
+                        'TOOLS:',
+                        style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 12),
+                  SizedBox(height: 2),
 
                   // Nearest Hospital Button
                   SizedBox(
@@ -589,8 +610,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => HospitalPage()),
+                          MaterialPageRoute(builder: (context) => HospitalPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -631,8 +651,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => FirstAidKitPage()),
+                          MaterialPageRoute(builder: (context) => FirstAidKitPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -642,7 +661,6 @@ class _HomePageState extends State<HomePage> {
                             borderRadius: BorderRadius.circular(10)),
                         elevation: 0,
                       ),
-
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -665,7 +683,7 @@ class _HomePageState extends State<HomePage> {
 
                   SizedBox(height: 10),
 
-                  // Nearest Hospital Button
+                  // Take a Quiz Button
                   SizedBox(
                     height: screenHeight * .12,
                     width: double.infinity,
@@ -673,8 +691,7 @@ class _HomePageState extends State<HomePage> {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => QuizPage()),
+                          MaterialPageRoute(builder: (context) => QuizPage()),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -688,7 +705,7 @@ class _HomePageState extends State<HomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            'assets/hospital_icon.svg',
+                            'assets/quiz_icon.svg',
                             height: 50,
                             width: 50,
                           ),
@@ -704,48 +721,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                   ),
-
-                  SizedBox(height: 10),
-
-                  // TEST BUTTON FOR TRANSLATE
-                  // SizedBox(
-                  //   height: screenHeight * .12,
-                  //   width: double.infinity,
-                  //   child: ElevatedButton(
-                  //     onPressed: () {
-                  //       Navigator.push(
-                  //         context,
-                  //         MaterialPageRoute(
-                  //             builder: (context) => QuizPage()),
-                  //       );
-                  //     },
-                  //     style: ElevatedButton.styleFrom(
-                  //       backgroundColor: Colors.white,
-                  //       padding: EdgeInsets.symmetric(vertical: 15),
-                  //       shape: RoundedRectangleBorder(
-                  //           borderRadius: BorderRadius.circular(10)),
-                  //       elevation: 0,
-                  //     ),
-                  //     child: Row(
-                  //       mainAxisAlignment: MainAxisAlignment.center,
-                  //       children: [
-                  //         SvgPicture.asset(
-                  //           'assets/hospital_icon.svg',
-                  //           height: 50,
-                  //           width: 50,
-                  //         ),
-                  //         SizedBox(width: 10),
-                  //         Text(
-                  //           'TRANSLATE',
-                  //           style: TextStyle(
-                  //               fontSize: 18,
-                  //               fontWeight: FontWeight.w500,
-                  //               color: Colors.black),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
                 ],
               ),
             ),

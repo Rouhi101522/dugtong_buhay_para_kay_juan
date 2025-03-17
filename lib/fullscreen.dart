@@ -47,9 +47,12 @@ class _FullScreenImagePageState extends State<FullScreenImagePage> {
               scale: _scale, // Apply dynamic scale
               child: Container(
                 alignment: Alignment.center,
-                child: Image.asset(
-                  widget.imageUrl,  // Corrected to use Image.asset for local assets
+                child: Image.network(
+                  widget.imageUrl,  // Use Image.network for loading images from URLs
                   fit: BoxFit.contain, // Ensures the image fits within the screen
+                  errorBuilder: (context, error, stackTrace) {
+                    return Text('Could not load image');
+                  },
                 ),
               ),
             ),

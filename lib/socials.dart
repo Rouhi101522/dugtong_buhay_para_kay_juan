@@ -5,10 +5,11 @@ import 'package:webfeed_revised/webfeed_revised.dart';
 import 'package:intl/intl.dart';
 
 const Map<String, String> rssFeeds = {
-  'All': 'https://fetchrss.com/rss/677be086dac93257d1095ef3677c0f700f0f0334a8041f92.rss,https://fetchrss.com/rss/677be086dac93257d1095ef3677be06973cc0b9efc061872.rss,https://fetchrss.com/rss/677be086dac93257d1095ef3677c0f52dbada232cd02cdf3.rss',
-  'Makati DRRM Office': 'https://fetchrss.com/rss/677be086dac93257d1095ef3677c0f700f0f0334a8041f92.rss',
-  'University of Makati': 'https://fetchrss.com/rss/677be086dac93257d1095ef3677be06973cc0b9efc061872.rss',
-  'PAGASA(DOST)': 'https://fetchrss.com/rss/677be086dac93257d1095ef3677c0f52dbada232cd02cdf3.rss',
+  'All': 'https://rss.app/feeds/NboCFNgAyMtIrQLz.xml,https://rss.app/feeds/Fl04PLscDcnzPaq0.xml,https://rss.app/feeds/cXW7aDowz2nf3Ce9.xml,https://rss.app/feeds/AwaLfcHVu0ir10t2.xml',
+  'Makati DRRM Office': 'https://rss.app/feeds/NboCFNgAyMtIrQLz.xml',
+  'University of Makati': 'https://rss.app/feeds/Fl04PLscDcnzPaq0.xml',
+  'PAGASA(DOST)': 'https://rss.app/feeds/cXW7aDowz2nf3Ce9.xml',
+  'Taguig': 'https://rss.app/feeds/AwaLfcHVu0ir10t2.xml',
 };
 
 class RssFeedPage extends StatefulWidget {
@@ -36,9 +37,11 @@ class _RssFeedPageState extends State<RssFeedPage> {
   Future<void> _fetchFeed() async {
     // Check if the data is already cached
     if (_rssCache.containsKey(_selectedCategory)) {
+      print('Loading from cache for category: $_selectedCategory');
       // Use cached data
       _rssFeed = Future.value(_rssCache[_selectedCategory]!);
     } else {
+      print('Fetching new data for category: $_selectedCategory');
       // Fetch new data if not cached
       _rssFeed = _selectedCategory == 'All' ? _fetchAllFeeds() : _rssService.fetchRssFeed(rssFeeds[_selectedCategory]!);
     }
@@ -51,6 +54,7 @@ class _RssFeedPageState extends State<RssFeedPage> {
       final data = await _rssFeed;
       if (!_rssCache.containsKey(_selectedCategory)) {
         // Cache the fetched data
+        print('Caching data for category: $_selectedCategory');
         _rssCache[_selectedCategory] = data;
       }
     } catch (e) {
@@ -69,21 +73,12 @@ class _RssFeedPageState extends State<RssFeedPage> {
   }
 
   Future<List<RssItem>> _fetchAllFeeds() async {
-    final allFeeds = rssFeeds['All']!
-        .split(',')
-        .map((url) => _rssService.fetchRssFeed(url.trim()))
-        .toList();
-
-    final allRssItems = <RssItem>[];
-    for (var feed in allFeeds) {
-      try {
-        final items = await feed;
-        allRssItems.addAll(items);
-      } catch (e) {
-        print('Error fetching one feed: $e');
-      }
+    List<RssItem> allFeeds = [];
+    for (String url in rssFeeds['All']!.split(',')) {
+      List<RssItem> feed = await _rssService.fetchRssFeed(url);
+      allFeeds.addAll(feed);
     }
-    return allRssItems;
+    return allFeeds;
   }
 
   void _onPageChanged(int index) {
@@ -281,4 +276,7 @@ class _RssFeedPageState extends State<RssFeedPage> {
       },
     );
   }
+
+
+
 }
