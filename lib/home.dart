@@ -337,7 +337,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     CircleAvatar(
                       radius: 30,
-                      backgroundImage: _photoUrl != null
+                      backgroundImage: _photoUrl != null && _photoUrl!.isNotEmpty
                           ? NetworkImage(_photoUrl!)
                           : AssetImage('assets/profile_placeholder.png')
                       as ImageProvider,
@@ -362,41 +362,42 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            // Medical Information Section
-
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Medical Information',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Medical Information',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 8),
-                  _buildInfoCard('Address', _address),
-                  _buildInfoCard('Blood Type', _bloodType),
-                  _buildInfoCard('Allergies', _allergies),
-                  _buildInfoCard('Medication', _medication),
-                  _buildInfoCard('Organ Donor', _organDonor),
-                  _buildInfoCard('Emergency Contact Person', _emergencyContactPerson),
-                  _buildInfoCard('Emergency Contact Person Number', _emergencyContactPersonNumber),
-                  SizedBox(height: 8),
-                  ElevatedButton(
-                    onPressed: _editEmergencyInfo, // Call method to edit info
-                    child: Text('Edit Information'),
-                  ),
-                ],
+                    SizedBox(height: 8),
+                    _buildInfoCard('Address', _address),
+                    _buildInfoCard('Blood Type', _bloodType),
+                    _buildInfoCard('Allergies', _allergies),
+                    _buildInfoCard('Medication', _medication),
+                    _buildInfoCard('Organ Donor', _organDonor),
+                    _buildInfoCard('Emergency Contact Person', _emergencyContactPerson),
+                    _buildInfoCard('Emergency Contact Person Number', _emergencyContactPersonNumber),
+                    SizedBox(height: 8),
+                    ElevatedButton(
+                      onPressed: _editEmergencyInfo, // Call method to edit info
+                      child: Text('Edit Information'),
+                    ),
+                  ],
+                ),
               ),
             ),
-
-            ListTile(
-              leading: Icon(Icons.login),
-              title: Text('Sign In with Google'),
-              onTap: _handleSignIn,
+            SliverToBoxAdapter(
+              child: ListTile(
+                leading: Icon(Icons.login),
+                title: Text('Sign In with Google'),
+                onTap: _handleSignIn,
+              ),
             ),
           ],
         ),

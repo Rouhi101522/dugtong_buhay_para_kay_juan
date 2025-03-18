@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:dugtong_buhay_para_kay_juan_v2/fullscreen.dart';
+import 'package:dugtong_buhay_para_kay_juan_v2/collats_full.dart';
 
 class InfantPage extends StatefulWidget {
   @override
