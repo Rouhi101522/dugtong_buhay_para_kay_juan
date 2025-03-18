@@ -273,69 +273,71 @@ class _HospitalPageState extends State<HospitalPage> {
               _mapController.setMapStyle(mapTheme);
             },
             initialCameraPosition:
-                CameraPosition(target: _initialPosition, zoom: 14.0),
+            CameraPosition(target: _initialPosition, zoom: 14.0),
             markers: _markers,
             myLocationEnabled: true,
             myLocationButtonEnabled: true,
           ),
           _hospitalData.isNotEmpty
               ? Positioned(
-                  bottom: 10,
-                  left: 10,
-                  right: 10,
-                  child: SizedBox(
-                    height: 166,
-                    child: PageView.builder(
-                      controller: _pageController,
-                      itemCount: _hospitalData.length,
-                      onPageChanged: (index) => _onHospitalSelected(index),
-                      itemBuilder: (context, index) {
-                        final hospital = _hospitalData[index];
-                        return Card(
-                          color: index == _currentHospitalIndex
-                              ? Colors.pink[100]
-                              : Colors.white,
-                          child: Container(
-                            width: 300,
-                            padding: const EdgeInsets.all(12.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+            bottom: 10,
+            left: 10,
+            right: 10,
+            child: SizedBox(
+              height: 166,
+              child: PageView.builder(
+                controller: _pageController,
+                itemCount: _hospitalData.length,
+                onPageChanged: (index) => _onHospitalSelected(index),
+                itemBuilder: (context, index) {
+                  final hospital = _hospitalData[index];
+                  return Card(
+                    color: index == _currentHospitalIndex
+                        ? Colors.pink[100]
+                        : Colors.white,
+                    child: Container(
+                      width: 300,
+                      padding: const EdgeInsets.all(12.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              hospital['name'],
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                                'Outpatient Department: ${hospital['opening_hours']}'),
+                            Text(
+                                'Accepting Emergencies: ${hospital['emergency']}'),
+                            Text(
+                                'Contact: ${hospital['phone'] ?? hospital['telephone']}'),
+                            Row(
                               children: [
-                                Text(
-                                  hospital['name'],
-                                  style: TextStyle(fontWeight: FontWeight.bold),
+                                IconButton(
+                                  icon: Icon(Icons.directions,
+                                      color: Colors.blue),
+                                  onPressed: () => _openGoogleMaps(
+                                      hospital['lat'], hospital['lng']),
                                 ),
-                                Text(
-                                    'Outpatient Department: ${hospital['opening_hours']}'),
-                                Text(
-                                    'Accepting Emergencies: ${hospital['emergency']}'),
-                                Text(
-                                    'Contact: ${hospital['phone'] ?? hospital['telephone']}'),
-                                Row(
-                                  children: [
-                                    IconButton(
-                                      icon: Icon(Icons.directions,
-                                          color: Colors.blue),
-                                      onPressed: () => _openGoogleMaps(
-                                          hospital['lat'], hospital['lng']),
-                                    ),
-                                    IconButton(
-                                      icon:
-                                          Icon(Icons.call, color: Colors.green),
-                                      onPressed: () => _callHospital(
-                                          hospital['phone'],
-                                          hospital['telephone']),
-                                    ),
-                                  ],
+                                IconButton(
+                                  icon:
+                                  Icon(Icons.call, color: Colors.green),
+                                  onPressed: () => _callHospital(
+                                      hospital['phone'],
+                                      hospital['telephone']),
                                 ),
                               ],
                             ),
-                          ),
-                        );
-                      },
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                )
+                  );
+                },
+              ),
+            ),
+          )
               : Container(),
         ],
       ),
