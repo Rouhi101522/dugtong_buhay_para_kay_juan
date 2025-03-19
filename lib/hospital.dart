@@ -46,14 +46,17 @@ class _HospitalPageState extends State<HospitalPage> {
 
   Future<void> _getCurrentLocation() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    print('Location service enabled: $serviceEnabled'); // Debug line
     if (!serviceEnabled) {
       await Geolocator.openLocationSettings();
       return;
     }
 
     LocationPermission permission = await Geolocator.checkPermission();
+    print('Location permission: $permission'); // Debug line
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
+      print('Requested permission: $permission'); // Debug line
       if (permission == LocationPermission.denied) {
         return;
       }
@@ -66,6 +69,7 @@ class _HospitalPageState extends State<HospitalPage> {
     Position position = await Geolocator.getCurrentPosition(
       locationSettings: LocationSettings(accuracy: LocationAccuracy.high),
     );
+    print('Current position: ${position.latitude}, ${position.longitude}'); // Debug line
 
     setState(() {
       _initialPosition = LatLng(position.latitude, position.longitude);
@@ -81,6 +85,7 @@ class _HospitalPageState extends State<HospitalPage> {
 
     final prefs = await SharedPreferences.getInstance();
     final String? cachedHospitals = prefs.getString('hospital_data');
+    print('Cached hospitals: $cachedHospitals'); // Debug line
 
     if (cachedHospitals != null) {
       setState(() {
@@ -90,7 +95,6 @@ class _HospitalPageState extends State<HospitalPage> {
       });
       return;
     }
-
 
     setState(() => isLoading = true);
     ScaffoldMessenger.of(context).showSnackBar(
@@ -113,16 +117,20 @@ class _HospitalPageState extends State<HospitalPage> {
     final String apiKey = dotenv.env['GOOGLE_API_KEY'] ?? 'default_value';
     final String url =
         'https://maps.googleapis.com/maps/api/place/textsearch/json?query=medical+center+OR+hospital+OR+general+hospital+OR+ospital+OR+memorial+hospital+OR+doctors+OR+center+OR+Ospital&location=${_initialPosition.latitude},${_initialPosition.longitude}&radius=1000&key=$apiKey';
+    print('API URL: $url'); // Debug line
 
     final response = await http.get(Uri.parse(url));
+    print('API response status: ${response.statusCode}'); // Debug line
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
+      print('API response data: $data'); // Debug line
       if (data['results'].isNotEmpty) {
         List<Map<String, dynamic>> tempHospitals = [];
 
         for (var hospital in data['results']) {
           final details = await _fetchHospitalDetails(hospital['place_id'], apiKey);
+          print('Hospital details: $details'); // Debug line
           double routeDistance = await _fetchRouteDistance(
             _initialPosition.latitude,
             _initialPosition.longitude,
@@ -130,13 +138,14 @@ class _HospitalPageState extends State<HospitalPage> {
             hospital['geometry']['location']['lng'],
             apiKey,
           );
+          print('Route distance: $routeDistance'); // Debug line
           tempHospitals.add({
             'name': hospital['name'],
             'lat': hospital['geometry']['location']['lat'],
             'lng': hospital['geometry']['location']['lng'],
             'phone': details['phone'],
             'telephone': details['telephone'],
-            'opening_hours': hospital['opening_hours'] != null
+            'opening_hours': hospital['opening_hours'] != null && hospital['opening_hours']['open_now'] != null
                 ? (hospital['opening_hours']['open_now'] ? 'Open' : 'Close')
                 : 'Unknown',
             'emergency': hospital['business_status'] == 'OPERATIONAL' ? 'Yes' : 'No',

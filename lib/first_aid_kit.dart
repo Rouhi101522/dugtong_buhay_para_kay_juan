@@ -138,15 +138,17 @@ class _FirstAidKitPageState extends State<FirstAidKitPage> {
   void initState() {
     super.initState();
     _initializeNotifications();
-    _loadInventory();
+    _loadInventory().then((_) {
+      _checkLowStock();
+    });
   }
 
   Future<void> _initializeNotifications() async {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('@mipmap/ic_launcher');
+    AndroidInitializationSettings('@mipmap/ic_launcher');
     final InitializationSettings initializationSettings =
-        InitializationSettings(android: initializationSettingsAndroid);
+    InitializationSettings(android: initializationSettingsAndroid);
     await flutterLocalNotificationsPlugin.initialize(initializationSettings);
   }
 
@@ -157,7 +159,6 @@ class _FirstAidKitPageState extends State<FirstAidKitPage> {
         item['quantity'] = prefs.getInt(item['name']) ?? 0;
       }
     });
-    _checkLowStock();
     setState(() {});
   }
 
@@ -193,23 +194,23 @@ class _FirstAidKitPageState extends State<FirstAidKitPage> {
 
   Future<void> _showLowStockNotification(List<String> lowStockItems) async {
     final BigTextStyleInformation bigTextStyleInformation =
-        BigTextStyleInformation(
+    BigTextStyleInformation(
       'The following items are low on stock: ${lowStockItems.join(', ')}',
       contentTitle: 'Low Stock Alert',
     );
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
-        AndroidNotificationDetails(
+    AndroidNotificationDetails(
       'low_stock_channel',
       'Low Stock Notifications',
       channelDescription:
-          'Notifications for low stock items in the first aid kit',
+      'Notifications for low stock items in the first aid kit',
       styleInformation: bigTextStyleInformation,
       importance: Importance.max,
       priority: Priority.high,
       showWhen: false,
     );
     final NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics);
+    NotificationDetails(android: androidPlatformChannelSpecifics);
     await flutterLocalNotificationsPlugin.show(
       0,
       'Low Stock Alert',
@@ -292,8 +293,15 @@ class _FirstAidKitPageState extends State<FirstAidKitPage> {
                   title: Text(entry.key,
                       style: TextStyle(fontWeight: FontWeight.bold)),
                   children: entry.value.map((item) {
+                    bool isLowStock = item['quantity'] < item['suggested'];
                     return Card(
                       margin: EdgeInsets.symmetric(vertical: 6),
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                            color: isLowStock ? Colors.red : Colors.transparent,
+                            width: 2),
+                        borderRadius: BorderRadius.circular(4),
+                      ),
                       child: ListTile(
                         leading: Image.asset(
                           item['image'],
@@ -304,7 +312,11 @@ class _FirstAidKitPageState extends State<FirstAidKitPage> {
                                 size: 40, color: Colors.grey);
                           },
                         ),
-                        title: Text(item['name']),
+                        title: Text(
+                          item['name'],
+                          style: TextStyle(
+                              color: isLowStock ? Colors.red : Colors.black),
+                        ),
                         subtitle: Text(
                             "${item['quantity']} out of ${item['suggested']}"),
                         onTap: () => _showItemDescription(

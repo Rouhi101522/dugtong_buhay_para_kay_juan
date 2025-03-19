@@ -1,3 +1,4 @@
+import 'package:dugtong_buhay_para_kay_juan_v2/qr_func.dart';
 import 'package:dugtong_buhay_para_kay_juan_v2/quiz_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,8 +19,6 @@ import 'socials.dart';// for rss
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,6 +37,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   //For Emergency Info
   String? _address;
   String? _bloodType;
@@ -137,60 +138,63 @@ class _HomePageState extends State<HomePage> {
     showDialog(
       context: context,
       builder: (context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'Edit Emergency Info',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Divider(),
-                  _buildEditableField('Address', addressController),
-                  _buildDropdownField('Blood Type', selectedBloodType, (String? newValue) {
-                    setState(() {
-                      selectedBloodType = newValue;
-                    });
-                  }, ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
-                  _buildEditableField('Allergies', allergiesController),
-                  _buildEditableField('Medication', medicationController),
-                  _buildDropdownField('Organ Donor', selectedOrganDonor, (String? newValue) {
-                    setState(() {
-                      selectedOrganDonor = newValue;
-                    });
-                  }, ['Yes', 'No']),
-                  _buildEditableField('Emergency Contact Person', emergencyContactPersonController),
-                  _buildEditableField('Emergency Contact Number', emergencyContactPersonNumberController),
-                  const SizedBox(height: 25),
-                  ElevatedButton(
-                    onPressed: () async {
-                      // Update state values
-                      setState(() {
-                        _address = addressController.text;
-                        _bloodType = selectedBloodType;
-                        _allergies = allergiesController.text;
-                        _medication = medicationController.text;
-                        _organDonor = selectedOrganDonor;
-                        _emergencyContactPerson = emergencyContactPersonController.text;
-                        _emergencyContactPersonNumber = emergencyContactPersonNumberController.text;
-                      });
-
-                      // Save data to SharedPreferences
-                      await _saveEmergencyInfo();
-                      Navigator.pop(context);
-                    },
-                    child: Text('Save Information'),
-                  ),
-                ],
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return Dialog(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
               ),
-            ),
-          ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Edit Emergency Info',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      ),
+                      Divider(),
+                      _buildEditableField('Address', addressController),
+                      _buildDropdownField('Blood Type', selectedBloodType, (String? newValue) {
+                        setState(() {
+                          selectedBloodType = newValue;
+                        });
+                      }, ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-']),
+                      _buildEditableField('Allergies', allergiesController),
+                      _buildEditableField('Medication', medicationController),
+                      _buildDropdownField('Organ Donor', selectedOrganDonor, (String? newValue) {
+                        setState(() {
+                          selectedOrganDonor = newValue;
+                        });
+                      }, ['Yes', 'No']),
+                      _buildEditableField('Emergency Contact Person', emergencyContactPersonController),
+                      _buildEditableField('Emergency Contact Number', emergencyContactPersonNumberController),
+                      const SizedBox(height: 25),
+                      ElevatedButton(
+                        onPressed: () async {
+                          setState(() {
+                            _address = addressController.text;
+                            _bloodType = selectedBloodType;
+                            _allergies = allergiesController.text;
+                            _medication = medicationController.text;
+                            _organDonor = selectedOrganDonor;
+                            _emergencyContactPerson = emergencyContactPersonController.text;
+                            _emergencyContactPersonNumber = emergencyContactPersonNumberController.text;
+                          });
+
+                          // Save data to SharedPreferences
+                          await _saveEmergencyInfo();
+                          Navigator.pop(context);
+                        },
+                        child: Text('Save Information'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
     );
@@ -222,6 +226,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+
 
   Future<void> _saveEmergencyInfo() async {
     if (_address == null || _address!.isEmpty ||
@@ -296,14 +302,17 @@ class _HomePageState extends State<HomePage> {
             title: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // Builder(
-                //   builder: (context) => IconButton(
-                //     icon: Icon(Icons.menu),
-                //     onPressed: () {
-                //       Scaffold.of(context).openDrawer();
-                //     },
-                //   ),
-                // ),
+                Builder(
+                  builder: (context) => IconButton(
+                    icon: Icon(Icons.qr_code_scanner_outlined),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainQR()),
+                      );
+                    },
+                  ),
+                ),
                 Image.asset(
                   'assets/still_logo.png',
                   width: 60,

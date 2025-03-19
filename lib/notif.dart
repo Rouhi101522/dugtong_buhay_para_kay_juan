@@ -30,18 +30,23 @@ class _EmergencyServiceState extends State<EmergencyService> {
     String? allergies = prefs.getString('allergies');
     String? medication = prefs.getString('medication');
     String? organDonor = prefs.getString('organDonor');
+    String? emergencyContactPerson = prefs.getString('emergencyContactPerson');
+    String? emergencyContactPersonNumber = prefs.getString('emergencyContactPersonNumber');
 
     print('Loaded emergency info: $address, $bloodType, $allergies, $medication, $organDonor');
-    _showNotification(address, bloodType, allergies, medication, organDonor);
+    _showNotification(address, bloodType, allergies, medication, organDonor, emergencyContactPerson, emergencyContactPersonNumber);
   }
 
-  Future<void> _showNotification(String? address, String? bloodType, String? allergies, String? medication, String? organDonor) async {
+  Future<void> _showNotification(String? address, String? bloodType, String? allergies, String? medication, String? organDonor, String? emergencyContactPerson, String? emergencyContactPersonNumber) async {
     var bigTextStyleInformation = BigTextStyleInformation(
       'Address: ${address ?? 'N/A'}\n'
           'Blood Type: ${bloodType ?? 'N/A'}\n'
           'Allergies: ${allergies ?? 'N/A'}\n'
           'Medication: ${medication ?? 'N/A'}\n'
-          'Organ Donor: ${organDonor ?? 'N/A'}',
+          'Organ Donor: ${organDonor ?? 'N/A'}\n\n'
+          'In case of emergency, contact:\n'
+          'Contact Name: ${emergencyContactPerson ?? 'N/A'}\n'
+          'Number: ${emergencyContactPersonNumber ?? 'N/A'}\n',
       contentTitle: 'Emergency Information',
       summaryText: 'Emergency Info',
     );
@@ -55,6 +60,7 @@ class _EmergencyServiceState extends State<EmergencyService> {
       visibility: NotificationVisibility.public, // Ensure visibility on lock screen
       styleInformation: bigTextStyleInformation,
       fullScreenIntent: true, // Show full screen notification
+      ongoing: true, // Make the notification persistent
     );
 
     var platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
@@ -82,8 +88,10 @@ class _EmergencyServiceState extends State<EmergencyService> {
     String? allergies = prefs.getString('allergies');
     String? medication = prefs.getString('medication');
     String? organDonor = prefs.getString('organDonor');
+    String? emergencyContactPerson = prefs.getString('emergencyContactPerson');
+    String? emergencyContactPersonNumber = prefs.getString('emergencyContactPersonNumber');
 
-    _showNotification(address, bloodType, allergies, medication, organDonor);
+    _showNotification(address, bloodType, allergies, medication, organDonor, emergencyContactPerson, emergencyContactPersonNumber);
   }
 
   @override

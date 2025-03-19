@@ -50,6 +50,11 @@ dependencies:
   carousel_slider: ^5.0.0
   translator: ^0.1.7
   flutter_local_notifications: ^18.0.1
+  qr_code_scanner: ^1.0.1
+  mobile_scanner: ^6.0.7
+  qr_flutter: ^4.1.0
+  workmanager: ^0.5.2
+
 
 
 
@@ -194,11 +199,10 @@ flutter:
     - assets/secondary_check.png
     - assets/referral.png
 
+#     Flowcharts (CPR & FBAO)
+    - assets/cpr_flowchart.png
+    - assets/fbao_flowchart.png
 
-    # Flowcharts (CPR & FBAO)
-    #- assets/cpr_flowchart.png
-    #- assets/fbao_flowchart.png
-    # FBAO Posters
 
 
 
