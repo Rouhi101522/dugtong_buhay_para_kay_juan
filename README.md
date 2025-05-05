@@ -30,6 +30,10 @@ In critical emergencies, the availability of immediate response and life-saving 
     ```bash
     flutter run
     ```
+You can also download the latest apk build from this Google drive
+```
+https://drive.google.com/drive/folders/1RiMFJFpZ9_t36ia1__zdgTUb7MawgCMd?usp=sharing
+```
 
 ## Usage
 1. Open the app on your device.
